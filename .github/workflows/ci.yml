@@ -16,6 +16,24 @@ jobs:
       - name: Create reports directory
         run: mkdir -p reports
 
+      - name: Create selenoid config
+        run: |
+          mkdir -p selenoid
+          cat > selenoid/browsers.json << 'EOF'
+          {
+              "chrome": {
+                  "default": "128.0",
+                  "versions": {
+                      "128.0": {
+                          "image": "selenoid/chrome:128.0",
+                          "port": "4444",
+                          "path": "/"
+                      }
+                  }
+              }
+          }
+          EOF
+
       - name: Pull selenoid chrome image
         run: docker pull selenoid/chrome:128.0
 
