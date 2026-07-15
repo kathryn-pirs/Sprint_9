@@ -1,6 +1,4 @@
 import allure
-import pytest
-from conftest import BACKEND_AUTH_AVAILABLE
 from pages.signup_page import SignupPage
 from data.data import URLs
 from data.helpers import generate_credentials

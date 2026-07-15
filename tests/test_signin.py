@@ -1,5 +1,4 @@
 import allure
-from conftest import BACKEND_AUTH_AVAILABLE
 from pages.signin_page import SigninPage
 from data.data import URLs
 

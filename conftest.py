@@ -1,35 +1,50 @@
+import json
+import os
+import random
+import string
+from urllib import request, error as urllib_error
+
 import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from pages.signup_page import SignupPage
-from pages.signin_page import SigninPage
+
 from data.data import URLs
 from data.helpers import generate_credentials
-import os
+from pages.signin_page import SigninPage
+from pages.signup_page import SignupPage
 
 
 def _is_backend_login_working():
-    """Check if backend allows login immediately after registration."""
-    import requests
-    import random
     try:
-        rand = str(random.randint(10000000, 90000000))
+        rand = ''.join(random.choices(string.digits, k=8))
         email = f'check{rand}@test.com'
         password = f'Test@123!{rand[:4]}'
         username = f'check_{rand}'
+        api_base = URLs.BASE_URL.rstrip('/')
 
-        r = requests.post(f'{URLs.BASE_URL.rstrip("/")}/api/users/', json={
+        reg_data = json.dumps({
             'email': email, 'password': password, 'username': username,
             'first_name': 'Check', 'last_name': 'User'
-        }, timeout=10)
-        if r.status_code != 201:
+        }).encode()
+        req = request.Request(
+            f'{api_base}/api/users/',
+            data=reg_data,
+            headers={'Content-Type': 'application/json'}
+        )
+        resp = request.urlopen(req, timeout=10)
+        if resp.status != 201:
             return False
 
-        r2 = requests.post(
-            f'{URLs.BASE_URL.rstrip("/")}/api/auth/token/login/',
-            json={'email': email, 'password': password}, timeout=10
+        login_data = json.dumps({
+            'email': email, 'password': password
+        }).encode()
+        req2 = request.Request(
+            f'{api_base}/api/auth/token/login/',
+            data=login_data,
+            headers={'Content-Type': 'application/json'}
         )
-        return r2.status_code == 200
+        resp2 = request.urlopen(req2, timeout=10)
+        return resp2.status == 200
     except Exception:
         return False
 
@@ -39,7 +54,8 @@ BACKEND_AUTH_AVAILABLE = _is_backend_login_working()
 
 @pytest.fixture
 def browser():
-    selenoid_url = os.getenv("SELENOID_URL", "")
+    selenoid_url = os.getenv("SELENOID_URL") or os.getenv("SELENOID_URI", "")
+    browser_version = os.getenv("BROWSER_VERSION", "128.0")
 
     options = Options()
     options.add_argument("--window-size=1920,1080")
@@ -48,7 +64,7 @@ def browser():
 
     if selenoid_url:
         options.set_capability("browserName", "chrome")
-        options.set_capability("browserVersion", "150.0")
+        options.set_capability("browserVersion", browser_version)
         options.set_capability("selenoid:options", {
             "enableVNC": True,
             "enableVideo": False,
