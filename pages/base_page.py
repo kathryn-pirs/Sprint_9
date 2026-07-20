@@ -11,6 +11,9 @@ class BasePage:
     def open(self, url):
         self.driver.get(url)
 
+    def get_current_url(self):
+        return self.driver.current_url
+
     def wait_page_loaded(self, element_locator, timeout=10):
         wait = WebDriverWait(self.driver, timeout)
         try:

@@ -6,24 +6,24 @@ from data.data import URLs
 class RecipesListPage(BasePage):
 
     def open(self):
-        self.driver.get(URLs.RECIPES_URL)
+        super().open(URLs.RECIPES_URL)
         self.wait_for_overlay(RecipesListLocators.RECIPE_CARD)
 
     def is_page_loaded(self):
         return self.is_element_present(RecipesListLocators.RECIPE_CARD)
 
     def get_recipe_cards(self):
-        return self.driver.find_elements(*RecipesListLocators.RECIPE_CARD)
+        return self.find_elements(RecipesListLocators.RECIPE_CARD)
 
     def get_recipe_titles(self):
-        titles = self.driver.find_elements(*RecipesListLocators.RECIPE_TITLE_LINK)
+        titles = self.find_elements(RecipesListLocators.RECIPE_TITLE_LINK)
         return [t.text for t in titles if t.text.strip()]
 
     def get_card_count(self):
         return len(self.get_recipe_cards())
 
     def click_first_recipe(self):
-        cards = self.driver.find_elements(*RecipesListLocators.RECIPE_TITLE_LINK)
+        cards = self.find_elements(RecipesListLocators.RECIPE_TITLE_LINK)
         if cards:
             cards[0].click()
 

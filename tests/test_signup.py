@@ -18,8 +18,8 @@ class TestSignup:
             assert signup.check_elem(), "Форма регистрации не отображается"
 
         with allure.step("Проверить URL страницы регистрации"):
-            assert browser.current_url == URLs.REGISTER_URL, \
-                f"Открыт неверный URL: {browser.current_url}"
+            assert signup.get_current_url() == URLs.REGISTER_URL, \
+                f"Открыт неверный URL: {signup.get_current_url()}"
 
     @allure.story("Проверка регистрации и перехода на страницу входа")
     def test_registration_redirects_to_login(self, browser):
@@ -34,8 +34,8 @@ class TestSignup:
 
         with allure.step("Проверить переход на страницу входа"):
             signup.wait_for_url_change(URLs.LOGIN_URL)
-            assert browser.current_url == URLs.LOGIN_URL, \
-                f"Не выполнен переход на страницу входа: {browser.current_url}"
+            assert signup.get_current_url() == URLs.LOGIN_URL, \
+                f"Не выполнен переход на страницу входа: {signup.get_current_url()}"
 
         with allure.step("Проверить отображение формы входа"):
             assert signup.check_elem(), "Форма входа не отображается"

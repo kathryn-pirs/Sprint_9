@@ -52,6 +52,6 @@ class TestNavigation:
 
         with allure.step("Проверить переход на страницу регистрации"):
             signup.wait_for_url_change(URLs.REGISTER_URL)
-            assert browser.current_url == URLs.REGISTER_URL, \
-                f"Открыт неверный URL: {browser.current_url}"
+            assert signup.get_current_url() == URLs.REGISTER_URL, \
+                f"Открыт неверный URL: {signup.get_current_url()}"
             assert signup.check_elem(), "Форма регистрации не отображается"

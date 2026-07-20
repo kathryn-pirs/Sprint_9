@@ -17,8 +17,8 @@ class TestSignin:
             assert signin.check_elem(), "Форма входа не отображается"
 
         with allure.step("Проверить URL страницы входа"):
-            assert browser.current_url == URLs.LOGIN_URL, \
-                f"Открыт неверный URL: {browser.current_url}"
+            assert signin.get_current_url() == URLs.LOGIN_URL, \
+                f"Открыт неверный URL: {signin.get_current_url()}"
 
     @allure.story("Проверка авторизации: переход на главную и кнопка «Выход»")
     def test_authorization_redirect_and_logout(self, browser, authorized_user):
@@ -26,8 +26,8 @@ class TestSignin:
 
         with allure.step("Проверить переход на главную страницу"):
             login.wait_for_url_change(URLs.RECIPES_URL)
-            assert browser.current_url == URLs.RECIPES_URL, \
-                f"Открыт неверный URL: {browser.current_url}"
+            assert login.get_current_url() == URLs.RECIPES_URL, \
+                f"Открыт неверный URL: {login.get_current_url()}"
 
         with allure.step("Проверить отображение кнопки «Выход»"):
             login.open(URLs.BASE_URL)

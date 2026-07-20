@@ -16,8 +16,8 @@ class TestRecipeCreate:
         with allure.step("Переход на страницу создания рецепта"):
             create_page.go_create_recipe()
             create_page.wait_for_url_change(URLs.CREATE_URL)
-            assert browser.current_url == URLs.CREATE_URL, \
-                f"Открыт неверный URL: {browser.current_url}"
+            assert create_page.get_current_url() == URLs.CREATE_URL, \
+                f"Открыт неверный URL: {create_page.get_current_url()}"
 
         with allure.step("Заполнение формы и создание рецепта"):
             recipe_data = generate_recipe_data(RECIPE_DATA_SETS)
@@ -42,5 +42,5 @@ class TestRecipeCreate:
         with allure.step("Выход из аккаунта"):
             create_page.go_logout()
             login.wait_for_url_change(URLs.RECIPES_URL)
-            assert browser.current_url == URLs.RECIPES_URL, \
-                f"Открыт неверный URL: {browser.current_url}"
+            assert login.get_current_url() == URLs.RECIPES_URL, \
+                f"Открыт неверный URL: {login.get_current_url()}"
