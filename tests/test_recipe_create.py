@@ -11,7 +11,7 @@ class TestRecipeCreate:
     @allure.title("Проверка создания рецепта и отображения на главной")
     def test_create_recipe(self, browser, authorized_user):
         create_page = RecipeCreatePage(browser)
-        login = SigninPage(browser)
+        signin = SigninPage(browser)
 
         with allure.step("Переход на страницу создания рецепта"):
             create_page.go_create_recipe()
@@ -32,8 +32,8 @@ class TestRecipeCreate:
             )
 
         with allure.step("Проверить кнопку «Выход» на главной"):
-            login.open(URLs.BASE_URL)
-            assert login.check_elem_logout(), "Кнопка выхода не отображается"
+            signin.open(URLs.BASE_URL)
+            assert signin.check_elem_logout(), "Кнопка выхода не отображается"
 
         with allure.step("Проверить карточку рецепта и название"):
             assert create_page.is_recipe_card_displayed(recipe_data["name"]), \
@@ -41,6 +41,6 @@ class TestRecipeCreate:
 
         with allure.step("Выход из аккаунта"):
             create_page.go_logout()
-            login.wait_for_url_change(URLs.RECIPES_URL)
-            assert login.get_current_url() == URLs.RECIPES_URL, \
-                f"Открыт неверный URL: {login.get_current_url()}"
+            signin.wait_for_url_change(URLs.RECIPES_URL)
+            assert signin.get_current_url() == URLs.RECIPES_URL, \
+                f"Открыт неверный URL: {signin.get_current_url()}"
