@@ -2,10 +2,10 @@ import allure
 from pages.recipes_list_page import RecipesListPage
 
 
-@allure.title("Просмотр списка рецептов")
+@allure.story("Просмотр списка рецептов")
 class TestRecipesList:
 
-    @allure.story("Проверка отображения карточек рецептов")
+    @allure.title("Проверка отображения карточек рецептов")
     def test_recipe_cards_displayed(self, browser):
         recipes = RecipesListPage(browser)
 
@@ -16,7 +16,7 @@ class TestRecipesList:
             assert recipes.is_recipe_card_present(), \
                 "Карточки рецептов не найдены на странице"
 
-    @allure.story("Проверка названий рецептов")
+    @allure.title("Проверка названий рецептов")
     def test_recipe_titles_not_empty(self, browser):
         recipes = RecipesListPage(browser)
 
@@ -33,7 +33,7 @@ class TestRecipesList:
             for title in titles:
                 assert title.strip(), "Найдено пустое название рецепта"
 
-    @allure.story("Проверка наличия карточек рецептов")
+    @allure.title("Проверка наличия карточек рецептов")
     def test_multiple_cards_present(self, browser):
         recipes = RecipesListPage(browser)
 

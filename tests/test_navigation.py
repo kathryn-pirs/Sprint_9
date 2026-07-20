@@ -5,10 +5,10 @@ from pages.recipes_list_page import RecipesListPage
 from data.data import URLs
 
 
-@allure.title("Навигация между страницами")
+@allure.story("Навигация между страницами")
 class TestNavigation:
 
-    @allure.story("Проверка перехода на страницу входа")
+    @allure.title("Проверка перехода на страницу входа")
     def test_navigate_to_signin(self, browser):
         signin = SigninPage(browser)
 
@@ -18,7 +18,7 @@ class TestNavigation:
         with allure.step("Проверить, что форма входа отображается"):
             assert signin.check_elem(), "Форма входа не отображается"
 
-    @allure.story("Проверка перехода на страницу регистрации")
+    @allure.title("Проверка перехода на страницу регистрации")
     def test_navigate_to_signup(self, browser):
         signup = SignupPage(browser)
 
@@ -28,7 +28,7 @@ class TestNavigation:
         with allure.step("Проверить, что форма регистрации отображается"):
             assert signup.check_elem(), "Форма регистрации не отображается"
 
-    @allure.story("Проверка перехода на страницу рецептов")
+    @allure.title("Проверка перехода на страницу рецептов")
     def test_navigate_to_recipes(self, browser):
         recipes = RecipesListPage(browser)
 
@@ -39,7 +39,7 @@ class TestNavigation:
             assert recipes.is_recipe_card_present(), \
                 "Карточки рецептов не отображаются"
 
-    @allure.story("Проверка перехода по ссылке «Создать аккаунт»")
+    @allure.title("Проверка перехода по ссылке «Создать аккаунт»")
     def test_navigate_to_signup_via_link(self, browser):
         signin = SigninPage(browser)
         signup = SignupPage(browser)

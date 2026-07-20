@@ -3,10 +3,10 @@ from pages.signin_page import SigninPage
 from data.data import URLs
 
 
-@allure.title("Авторизация")
+@allure.story("Авторизация")
 class TestSignin:
 
-    @allure.story("Проверка отображения формы входа")
+    @allure.title("Проверка отображения формы входа")
     def test_signin_form_displayed(self, browser):
         signin = SigninPage(browser)
 
@@ -20,7 +20,7 @@ class TestSignin:
             assert signin.get_current_url() == URLs.LOGIN_URL, \
                 f"Открыт неверный URL: {signin.get_current_url()}"
 
-    @allure.story("Проверка авторизации: переход на главную и кнопка «Выход»")
+    @allure.title("Проверка авторизации: переход на главную и кнопка «Выход»")
     def test_authorization_redirect_and_logout(self, browser, authorized_user):
         login = SigninPage(browser)
 

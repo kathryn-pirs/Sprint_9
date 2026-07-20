@@ -3,10 +3,10 @@ from pages.signin_page import SigninPage
 from data.data import URLs
 
 
-@allure.title("Редирект неавторизованных пользователей")
+@allure.story("Редирект неавторизованных пользователей")
 class TestAuthRedirect:
 
-    @allure.story("Проверка редиректа со страницы создания рецепта")
+    @allure.title("Проверка редиректа со страницы создания рецепта")
     def test_create_recipe_redirects_to_login(self, browser):
         signin = SigninPage(browser)
 
@@ -17,7 +17,7 @@ class TestAuthRedirect:
             assert signin.get_current_url() == URLs.LOGIN_URL, \
                 f"Не выполнен редирект на страницу входа: {signin.get_current_url()}"
 
-    @allure.story("Проверка редиректа с главной страницы")
+    @allure.title("Проверка редиректа с главной страницы")
     def test_main_page_redirects_to_login(self, browser):
         signin = SigninPage(browser)
 
@@ -28,7 +28,7 @@ class TestAuthRedirect:
             assert signin.get_current_url() == URLs.LOGIN_URL, \
                 f"Не выполнен редирект на страницу входа: {signin.get_current_url()}"
 
-    @allure.story("Проверка редиректа со страницы подписок")
+    @allure.title("Проверка редиректа со страницы подписок")
     def test_subscriptions_redirects_to_login(self, browser):
         signin = SigninPage(browser)
 

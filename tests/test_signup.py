@@ -4,10 +4,10 @@ from data.data import URLs
 from data.helpers import generate_credentials
 
 
-@allure.title("Регистрация пользователя")
+@allure.story("Регистрация пользователя")
 class TestSignup:
 
-    @allure.story("Проверка формы регистрации")
+    @allure.title("Проверка формы регистрации")
     def test_registration_form_displayed(self, browser):
         signup = SignupPage(browser)
 
@@ -21,7 +21,7 @@ class TestSignup:
             assert signup.get_current_url() == URLs.REGISTER_URL, \
                 f"Открыт неверный URL: {signup.get_current_url()}"
 
-    @allure.story("Проверка регистрации и перехода на страницу входа")
+    @allure.title("Проверка регистрации и перехода на страницу входа")
     def test_registration_redirects_to_login(self, browser):
         name, lastname, username, email, password = generate_credentials()
         signup = SignupPage(browser)

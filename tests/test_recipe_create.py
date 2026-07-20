@@ -5,10 +5,10 @@ from data.data import URLs, RECIPE_DATA_SETS
 from data.helpers import generate_recipe_data
 
 
-@allure.title("Создание рецепта")
+@allure.story("Создание рецепта")
 class TestRecipeCreate:
 
-    @allure.story("Проверка создания рецепта и отображения на главной")
+    @allure.title("Проверка создания рецепта и отображения на главной")
     def test_create_recipe(self, browser, authorized_user):
         create_page = RecipeCreatePage(browser)
         login = SigninPage(browser)
