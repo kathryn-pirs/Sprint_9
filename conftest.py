@@ -84,8 +84,8 @@ def browser():
 @pytest.fixture(scope="function")
 def registered_user(browser):
     name, lastname, username, email, password = generate_credentials()
-    browser.get(URLs.BASE_URL)
     signin_page = SigninPage(browser)
+    signin_page.open(URLs.BASE_URL)
     signin_page.new_register()
     signup_page = SignupPage(browser)
     signup_page.wait_for_url_change(URLs.REGISTER_URL)
@@ -107,8 +107,8 @@ def authorized_user(browser, registered_user):
             "Бэкенд требует email-активацию. "
             "Установите SEND_ACTIVATION_EMAIL = False в настройках Djoser."
         )
-    browser.get(URLs.BASE_URL)
     auth_page = SigninPage(browser)
+    auth_page.open(URLs.BASE_URL)
     auth_page.go_login()
     auth_page.wait_for_url_change(URLs.LOGIN_URL)
     auth_page.login(registered_user["email"], registered_user["password"])
