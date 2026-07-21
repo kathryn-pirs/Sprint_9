@@ -1,0 +1,45 @@
+services:
+
+  selenoid:
+    image: "aerokube/selenoid"
+    container_name: selenoid
+    ports:
+      - "4444:4444"
+    networks:
+      - selenoid
+    volumes:
+      - "./selenoid/browsers.json:/etc/browsers.json:ro"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    command: ["-conf", "/etc/browsers.json", "-container-network", "selenoid_net"]
+
+  selenoid-ui:
+    image: "aerokube/selenoid-ui:latest"
+    container_name: selenoid-ui
+    links:
+      - selenoid
+    ports:
+      - "8081:8080"
+    networks:
+      - selenoid
+    command: ["--selenoid-uri", "http://selenoid:4444"]
+
+  test_docker:
+    build: .
+    container_name: test_docker
+    depends_on:
+      - selenoid
+    networks:
+      - selenoid
+    tty: true
+    environment:
+      SELENOID_URI: http://selenoid:4444/wd/hub
+      BROWSER: chrome
+      BROWSER_VERSION: 128.0
+    volumes:
+      - ./reports:/app/reports
+    command: ["pytest", "-v", "--alluredir=reports/allure-results"]
+
+networks:
+  selenoid:
+    name: selenoid_net
+    driver: bridge

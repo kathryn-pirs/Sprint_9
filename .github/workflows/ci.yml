@@ -1,0 +1,48 @@
+name: Sprint_9 autotests
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches:
+      - develop
+jobs:
+  run-selenoid-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - name: Create reports directory
+        run: mkdir -p reports
+
+      - name: Create selenoid config
+        run: |
+          mkdir -p selenoid
+          cat > selenoid/browsers.json << 'EOF'
+          {
+              "chrome": {
+                  "default": "128.0",
+                  "versions": {
+                      "128.0": {
+                          "image": "selenoid/chrome:128.0",
+                          "port": "4444",
+                          "path": "/"
+                      }
+                  }
+              }
+          }
+          EOF
+
+      - name: Pull selenoid chrome image
+        run: docker pull selenoid/chrome:128.0
+
+      - name: Run tests in docker
+        run: docker compose up --build --exit-code-from test_docker
+
+      - name: Upload allure results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results
+          path: reports/allure-results
